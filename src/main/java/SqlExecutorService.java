@@ -21,7 +21,7 @@ public class SqlExecutorService {
         try {
             int columnCount = rsMetaData.getColumnCount();
             while (rs.next()) {
-                HashMap<String, Object> rowMap = new HashMap<String, Object>();
+                HashMap<String, Object> rowMap = new HashMap<>();
                 for (int i = 1; i <= columnCount; ++i) {
                     rowMap.put(rsMetaData.getColumnName(i), rs.getObject(i));
                 }

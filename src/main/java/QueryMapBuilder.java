@@ -3,10 +3,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,7 +52,7 @@ class QueryMapBuilder {
         Stream<Stream<String>> unprocessedQueries = getUnprocessedQueries();
         Stream<String> flattenedQueries = unprocessedQueries.flatMap(queriesForFile -> queriesForFile);
         String bulkQueryString = String.join(" ", flattenedQueries.collect(Collectors.toList()));
-        String QUERY_SPLITTER_REGEX = "-- name: *";
+        String QUERY_SPLITTER_REGEX = "--\\s+name\\s*: *";
         return Arrays.stream(bulkQueryString.trim().split(QUERY_SPLITTER_REGEX))
                 .filter(st -> !st.isEmpty())
                 .map(queryWithName -> Arrays.asList(queryWithName.split(SPACE_SEPARATOR)))
@@ -67,8 +64,17 @@ class QueryMapBuilder {
         return String.join(" ", querySeparatedAsList.subList(1, querySeparatedAsList.size()));
     }
 
+
+    private void getDuplicateQueries(Stream<String> queryNames) {
+        Map<String, List<String>> groupedQueryNames = queryNames.collect(Collectors.groupingBy(it -> it));
+        System.out.println(groupedQueryNames);
+    }
+
     HashMap<String, String> getQueryMap() {
         List<List<String>> rebuiltQueries = rebuildQueries();
+        System.out.println(rebuiltQueries);
+        Stream<String> queryNames = rebuiltQueries.stream().map(qList -> qList.get(0));
+        getDuplicateQueries(queryNames);
         for (List<String> qList : rebuiltQueries) {
             queryMap.put(qList.get(0), getQueryString(qList));
         }
