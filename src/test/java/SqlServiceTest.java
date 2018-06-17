@@ -33,7 +33,7 @@ public class SqlServiceTest {
     }
 
     private void initializeSqlService() {
-        sqlService = new SqlService("/home/shubhang/opensource/sql-service/src/test/resource", ds);
+        sqlService = new SqlService("./src/test/resource", ds);
     }
 
 
