@@ -60,23 +60,42 @@ class QueryMapBuilder {
 
     }
 
-    private String getQueryString(List<String> querySeparatedAsList) {
-        return String.join(" ", querySeparatedAsList.subList(1, querySeparatedAsList.size()));
+    private String getQueryString(List<String> querySeparatedAsList, String queryName) {
+        String queryString = String.join(" ", querySeparatedAsList.subList(1, querySeparatedAsList.size()));
+        if (queryString.isEmpty()) {
+            try {
+                throw new Exception("Query name present but query statement not found for " + queryName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return queryString;
     }
 
 
-    private void getDuplicateQueries(Stream<String> queryNames) {
-        Map<String, List<String>> groupedQueryNames = queryNames.collect(Collectors.groupingBy(it -> it));
-        System.out.println(groupedQueryNames);
+    private List<String> getDuplicateQueries(Stream<String> queryNames) {
+        return queryNames
+                .collect(Collectors.groupingBy(it -> it))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().size() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     HashMap<String, String> getQueryMap() {
         List<List<String>> rebuiltQueries = rebuildQueries();
-        System.out.println(rebuiltQueries);
         Stream<String> queryNames = rebuiltQueries.stream().map(qList -> qList.get(0));
-        getDuplicateQueries(queryNames);
+        List<String> dupQueries = getDuplicateQueries(queryNames);
+        if (dupQueries.size() > 0) {
+            try {
+                throw new Exception("Duplicate Queries found --> " + dupQueries);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         for (List<String> qList : rebuiltQueries) {
-            queryMap.put(qList.get(0), getQueryString(qList));
+            queryMap.put(qList.get(0), getQueryString(qList, qList.get(0)));
         }
 
         return queryMap;
