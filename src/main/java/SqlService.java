@@ -17,7 +17,9 @@ public class SqlService {
         this.sqlExecutorService = new SqlExecutorService(ds);
     }
 
-    List<HashMap<String, Object>> executeSql(String queryName, HashMap<String, Object> params) {
+
+    private List<HashMap<String, Object>> fetchResults(String queryName, HashMap<String, Object> params) {
+        System.out.println(queryMap);
         String queryStatement = queryMap.get(queryName);
         if (queryStatement == null) {
             try {
@@ -30,6 +32,15 @@ public class SqlService {
         System.out.println("Executing --> " + queryStatement + " with params " + params);
         return sqlExecutorService.executeSql(queryStatement, params);
 
+    }
+
+    List<HashMap<String, Object>> executeSql(String queryName, HashMap<String, Object> params) {
+        return this.fetchResults(queryName, params);
+
+    }
+
+    List<HashMap<String, Object>> executeSql(String queryName) {
+        return this.fetchResults(queryName, null);
     }
 
 }
