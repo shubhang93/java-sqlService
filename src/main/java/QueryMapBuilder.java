@@ -20,7 +20,8 @@ class QueryMapBuilder {
     }
 
     private FilenameFilter filterSqlFiles() {
-        return (dir, name) -> name.toLowerCase().endsWith(".sql");
+        String SQL_FILE_EXTENSION = ".sql";
+        return (dir, name) -> name.toLowerCase().endsWith(SQL_FILE_EXTENSION);
     }
 
 
@@ -85,6 +86,7 @@ class QueryMapBuilder {
 
     HashMap<String, String> getQueryMap() {
         List<List<String>> rebuiltQueries = rebuildQueries();
+        System.out.println(rebuiltQueries);
         Stream<String> queryNames = rebuiltQueries.stream().map(qList -> qList.get(0));
         List<String> dupQueries = getDuplicateQueries(queryNames);
         if (dupQueries.size() > 0) {
@@ -97,7 +99,6 @@ class QueryMapBuilder {
         for (List<String> qList : rebuiltQueries) {
             queryMap.put(qList.get(0), getQueryString(qList, qList.get(0)));
         }
-
         return queryMap;
     }
 

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SqlExecutorService {
+class SqlExecutorService {
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate = null;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     SqlExecutorService(DataSource ds) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(ds);
