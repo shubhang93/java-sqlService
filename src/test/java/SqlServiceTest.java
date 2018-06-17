@@ -88,8 +88,4 @@ public class SqlServiceTest {
         assert (row.equals(resRow));
     }
 
-    @Test
-    public void shouldReturnAllProducts(){
-
-    }
 }
