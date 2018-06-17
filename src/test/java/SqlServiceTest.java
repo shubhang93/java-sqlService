@@ -87,4 +87,9 @@ public class SqlServiceTest {
         HashMap<String, Object> resRow = res.get(0);
         assert (row.equals(resRow));
     }
+
+    @Test
+    public void shouldReturnAllProducts(){
+
+    }
 }
