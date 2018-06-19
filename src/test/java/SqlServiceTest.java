@@ -8,10 +8,7 @@ import org.junit.Test;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,8 +46,13 @@ public class SqlServiceTest {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             DatabaseMetaData dbm = conn.getMetaData();
-            if (!isSetupDone) {
-                stmt.execute("create table product (id int primary key , code varchar(20),name varchar(20))");
+            ResultSet rs = dbm.getTables(null, null, "PRODUCT", null);
+            if (rs.next()) {
+                stmt.execute("drop table product");
+                stmt.execute("create table product(id int primary key,code varchar(20),name varchar(20)) ");
+                conn.close();
+            } else {
+                stmt.execute("create table product(id int primary key,code varchar(20) ,name varchar(20)) ");
                 conn.close();
             }
 
@@ -64,7 +66,6 @@ public class SqlServiceTest {
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
-
             stmt.execute("insert into product values(1,'p234','soap')");
             stmt.execute("insert into product values (2,'p456','soup')");
             conn.close();
@@ -97,6 +98,7 @@ public class SqlServiceTest {
         params.put("code", "p456");
         List<HashMap<String, Object>> res = sqlService.executeSql("productWithParams", params);
         HashMap<String, Object> resRow = res.get(0);
+        System.out.println("Result --> " + resRow);
         assert (row.equals(resRow));
     }
 
