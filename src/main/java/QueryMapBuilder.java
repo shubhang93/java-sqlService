@@ -12,8 +12,8 @@ class QueryMapBuilder {
 
     private String sqlFilesPath;
     private HashMap<String, String> queryMap = new HashMap<>();
-
     private final String SPACE_SEPARATOR = " ";
+
 
     QueryMapBuilder(String sqlFilesPath) {
         this.sqlFilesPath = sqlFilesPath;
@@ -38,6 +38,7 @@ class QueryMapBuilder {
         fileStream.forEach(file -> {
             try {
                 List<String> lines = FileUtils.readLines(file, "UTF-8");
+                System.out.println("Lines -->" + lines);
                 unprocessedQueries.add(lines);
 
             } catch (IOException e) {

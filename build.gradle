@@ -10,7 +10,6 @@
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -39,3 +38,26 @@ dependencies {
 
 }
 
+allprojects {
+    repositories {
+        mavenLocal()
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'in.channelbridge'
+            version '1.0'
+            artifactId 'sql-service'
+            from components.java
+        }
+    }
+}
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+}
