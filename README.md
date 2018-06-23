@@ -1,8 +1,7 @@
 # java-sqlService
-An easy to use Sql query runner for Kotlin
+Harness the full power of SQL in your jvm based apps.
 
-SQL is a mtaured DSL in itself and offers a very declarative way of writing queries and fetching data.(Heavily inspired by 
-the yesql library for clojure).
+SQL is a matured DSL in itself and offers a very declarative way of writing queries and fetching data. Wrapping it by using custom DSL(s) would take away the essence of SQL. Now Directly write Sqls and use them in your apps by using this library(Heavily inspired by the yesql library for clojure).
 
 # What adantages does this library provide?
 * Write your SQL files separately with .sql extensions and test them separetely by connecting them to a db console.
