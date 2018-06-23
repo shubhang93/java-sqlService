@@ -17,10 +17,11 @@ select * from product where code = :code and brand=:brand
 ```
 ```java
  public static void main(String[] args) {
-    DataSource ds = new DataSoruce() // Can be any SQL DataSource
-    SqlService sqlService = new SqlService(ds,"dir_path_containing_sql_files") 
+    DataSource ds = new DataSoruce(); // Can be any SQL DataSource
+    SqlService sqlService = new SqlService(ds,"dir_path_containing_sql_files"); 
     HashMap<String, Object> params = new HashMap<>();
-    params.put("code", "p456","brand","A1");
+    params.put("code", "p456");
+    params.put("brand,"A1");
     List<HashMap<String, Object>> res = sqlService.executeSql("product",params);
  }
 ```
